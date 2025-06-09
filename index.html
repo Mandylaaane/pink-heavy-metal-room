@@ -8,12 +8,12 @@
   <body>
     <a-scene cursor="rayOrigin: mouse">
       <!-- VR Controllers -->
-  <a-entity laser-controls="hand: left"></a-entity>
-  <a-entity laser-controls="hand: right"></a-entity>
-      
+      <a-entity laser-controls="hand: left"></a-entity>
+      <a-entity laser-controls="hand: right"></a-entity>
+
       <!---- THE ROOM ---->
       <a-sky color="#000000"></a-sky>
-      
+
       <!-- Back wall -->
       <a-box
         position="0 2 -10"
@@ -68,7 +68,7 @@
         position="0 0.05 -4.2"
       >
       </a-entity>
-      
+
       <!-- ASSETS -->
       <a-assets>
         <a-asset-item
@@ -95,25 +95,58 @@
           id="amp"
           src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/amp2.glb?v=1749455356206"
         ></a-asset-item>
-        <audio id="guitar-sound" src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/electric-guitar-metal-riff-107087.mp3?v=1749470649443"></audio>
+        <audio
+          id="guitar-sound"
+          src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/electric-guitar-metal-riff-107087.mp3?v=1749470649443"
+        ></audio>
       </a-assets>
 
       <!---- GLTF MODELS ---->
 
       <!-- GUITAR -->
-      <a-gltf-model
-        id="guitar-model"
-        src="#guitar"
+
+      <!-- RAISE & VIBRATE EFFECT -->
+      <a-entity
+        id="guitar-parent"
         position="5.5 0.3 -2"
-        scale="0.4 0.4 0.4"
-        rotation="0 260 0"
-        
-      sound="src: #guitar-sound; on: click; volume: 2"
-    animation__raise="property: position; to: 5.5 1.5 -2; startEvents: click; dur: 500; easing: easeOutQuad"
-    animation__lower="property: position; to: 5.5 0.3 -2; startEvents: mouseleave; dur: 500; easing: easeInQuad"
-    animation__tilt="property: rotation; to: 20 260 0; startEvents: click; dur: 500; easing: easeOutQuad"
-    animation__untilt="property: rotation; to: 0 260 0; startEvents: mouseleave; dur: 500; easing: easeInQuad"
-      ></a-gltf-model>
+        animation__raise="property: position; to: 5.5 1.5 -2; startEvents: raise; dur: 500; easing: easeOutQuad"
+        animation__lower="property: position; to: 5.5 0.3 -2; startEvents: lower; dur: 500; easing: easeInQuad"
+      >
+        <a-gltf-model
+          id="guitar-model"
+          src="#guitar"
+          scale="0.4 0.4 0.4"
+          rotation="0 260 0"
+          animation__vibrate="property: rotation; 
+                      from: 0 255 0; 
+                      to: 0 265 0; 
+                      dir: alternate; 
+                      dur: 100; 
+                      loop: true; 
+                      startEvents: vibrate"
+          animation__resetvibrate="property: rotation; to: 0 260 0; startEvents: resetvibrate; dur: 0"
+          sound="src: #guitar-sound; on: click; volume: 2"
+        ></a-gltf-model>
+      </a-entity>
+
+      <script>
+        const parent = document.querySelector("#guitar-parent");
+        const model = document.querySelector("#guitar-model");
+
+        parent.addEventListener("click", () => {
+          parent.emit("raise");
+        });
+
+        parent.addEventListener("animationcomplete__raise", () => {
+          model.emit("vibrate");
+
+          // Vibrate for 2 seconds, then stop and lower
+          setTimeout(() => {
+            model.emit("resetvibrate");
+            parent.emit("lower");
+          }, 5000);
+        });
+      </script>
 
       <!-- COUCH -->
       <a-gltf-model
@@ -134,7 +167,7 @@
       <!-- LEOPARD -->
       <a-gltf-model
         src="#leopard"
-        position="4.5 0.15 -6"
+        position="4.5 0.15 -7.5"
         scale="4 4 4"
         rotation="0 240 0"
       ></a-gltf-model>
@@ -150,14 +183,14 @@
 
       <!-- IMGs/POSTERS -->
       <a-image
-        id="goat-poster"       
+        id="goat-poster"
         src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/poster.png?v=1749136487731"
         position="0 2 -9.8"
         width="2"
         height="3"
       ></a-image>
       <a-image
-        id="kiss-poster"   
+        id="kiss-poster"
         src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/kiss%20poster.jpg?v=1749457743514"
         position="-3 2 -9.8"
         width="2"
@@ -171,8 +204,21 @@
         height="3"
       ></a-image>
       
+       <!-- DEATH TO ALL GRAFFITI -->
+        <a-image
+        id="death-to-all"
+        src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/death%20to%20all%20but%20metal.PNG?v=1749498351404"
+        position="-5.9 2.5 -3.5"
+        rotation="0 90 0"
+        width="4"
+        height="2"
+        
+      ></a-image>
+      
+      
+
       <!-- PLAY ME NEON -->
-       <a-image
+      <a-image
         id="play-me-neon"
         src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/play%20me%20filled.png?v=1749474867270"
         position="5 2 -3.5"
@@ -181,7 +227,7 @@
         height="3"
         animation="property: position; dir: alternate; dur: 1500; easing: easeInOutSine; loop: true; to: 5 2.2 -3.5"
       ></a-image>
-      
+
       <!-- GOAT RUG -->
       <a-image
         id="goat-rug"
