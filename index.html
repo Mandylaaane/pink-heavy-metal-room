@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <title>Pink HEAVY METAL ROOM</title>
+  </head>
+  <body>
+    <a-scene cursor="rayOrigin: mouse">
+      <!-- VR Controllers -->
+  <a-entity laser-controls="hand: left"></a-entity>
+  <a-entity laser-controls="hand: right"></a-entity>
+      
+      <!---- THE ROOM ---->
+      <a-sky color="#000000"></a-sky>
+      
+      <!-- Back wall -->
+      <a-box
+        position="0 2 -10"
+        width="12"
+        height="5"
+        depth="0.1"
+        color="#FE99BB"
+        material="opacity:0.95"
+      ></a-box>
+      <!-- Left wall -->
+      <a-box
+        position="-6 2 -5"
+        width="0.1"
+        height="5"
+        depth="10"
+        color="#FE99BB"
+        material="opacity:0.95"
+      ></a-box>
+      <!-- Right wall -->
+      <a-box
+        position="6 2 -5"
+        width="0.1"
+        height="5"
+        depth="10"
+        color="#FE99BB"
+        material="opacity:0.95"
+      ></a-box>
+      <!-- Floor -->
+      <a-box
+        position="0 -0.5 -5"
+        width="12"
+        height="0.1"
+        depth="10"
+        color="#C46082"
+        material="opacity:0.98"
+      ></a-box>
+
+      <!-- Table: a flat circle -->
+      <a-entity
+        geometry="primitive: circle; radius: 1.2"
+        material="color: #FB508F; side: double; opacity: 0.6; transparent: true"
+        position="0 0.3 -4.2"
+        rotation="-90 0 0"
+        height="0.2"
+      >
+      </a-entity>
+
+      <!-- Table base: a short cylinder -->
+      <a-entity
+        geometry="primitive: cylinder; radius: 0.1; height: 0.55"
+        material="color: #D81A60"
+        position="0 0.05 -4.2"
+      >
+      </a-entity>
+      
+      <!-- ASSETS -->
+      <a-assets>
+        <a-asset-item
+          id="guitar"
+          src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/pinkGuitar.glb?v=1749042699753"
+        ></a-asset-item>
+        <a-asset-item
+          id="couch"
+          src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/zebra%20couch.glb?v=1749030619978"
+        ></a-asset-item>
+        <a-asset-item
+          id="table"
+          src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/round%20table.glb?v=1749115022276"
+        ></a-asset-item>
+        <a-asset-item
+          id="skull"
+          src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/newSkull.glb?v=1749134123532"
+        ></a-asset-item>
+        <a-asset-item
+          id="leopard"
+          src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/pinkLeopard.glb?v=1749138388804"
+        ></a-asset-item>
+        <a-asset-item
+          id="amp"
+          src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/amp2.glb?v=1749455356206"
+        ></a-asset-item>
+        <audio id="guitar-sound" src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/electric-guitar-metal-riff-107087.mp3?v=1749470649443"></audio>
+      </a-assets>
+
+      <!---- GLTF MODELS ---->
+
+      <!-- GUITAR -->
+      <a-gltf-model
+        id="guitar-model"
+        src="#guitar"
+        position="5.5 0.3 -2"
+        scale="0.4 0.4 0.4"
+        rotation="0 260 0"
+        
+      sound="src: #guitar-sound; on: click; volume: 2"
+    animation__raise="property: position; to: 5.5 1.5 -2; startEvents: click; dur: 500; easing: easeOutQuad"
+    animation__lower="property: position; to: 5.5 0.3 -2; startEvents: mouseleave; dur: 500; easing: easeInQuad"
+    animation__tilt="property: rotation; to: 20 260 0; startEvents: click; dur: 500; easing: easeOutQuad"
+    animation__untilt="property: rotation; to: 0 260 0; startEvents: mouseleave; dur: 500; easing: easeInQuad"
+      ></a-gltf-model>
+
+      <!-- COUCH -->
+      <a-gltf-model
+        src="#couch"
+        position="-5 0.35 -4.5"
+        scale="7 7 7"
+      ></a-gltf-model>
+
+      <!-- SKULL -->
+      <a-gltf-model
+        src="#skull"
+        position="0 0.6 -4.2"
+        scale="1.5 1.5 1.5"
+        rotation="0 240 20"
+        animation="property: rotation; to: 0 600 20; loop: true; dur: 10000"
+      ></a-gltf-model>
+
+      <!-- LEOPARD -->
+      <a-gltf-model
+        src="#leopard"
+        position="4.5 0.15 -6"
+        scale="4 4 4"
+        rotation="0 240 0"
+      ></a-gltf-model>
+
+      <!-- AMP -->
+      <a-gltf-model
+        id="amp-model"
+        src="#amp"
+        position="5.1 0.1 -4"
+        scale="3 3 3"
+        rotation="0 230 0"
+      ></a-gltf-model>
+
+      <!-- IMGs/POSTERS -->
+      <a-image
+        id="goat-poster"       
+        src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/poster.png?v=1749136487731"
+        position="0 2 -9.8"
+        width="2"
+        height="3"
+      ></a-image>
+      <a-image
+        id="kiss-poster"   
+        src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/kiss%20poster.jpg?v=1749457743514"
+        position="-3 2 -9.8"
+        width="2"
+        height="3"
+      ></a-image>
+      <a-image
+        id="maiden-poster"
+        src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/maiden%20poster.jpg?v=1749457793934"
+        position="3 2 -9.8"
+        width="2"
+        height="3"
+      ></a-image>
+      
+      <!-- PLAY ME NEON -->
+       <a-image
+        id="play-me-neon"
+        src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/play%20me%20filled.png?v=1749474867270"
+        position="5 2 -3.5"
+        rotation="0 -40 0"
+        width="2"
+        height="3"
+        animation="property: position; dir: alternate; dur: 1500; easing: easeInOutSine; loop: true; to: 5 2.2 -3.5"
+      ></a-image>
+      
+      <!-- GOAT RUG -->
+      <a-image
+        id="goat-rug"
+        src="https://cdn.glitch.global/4fbd3f6d-4dc4-4eea-ae05-6cb58d552a00/goat-rug.png?v=1749471355067"
+        position="0 -0.4 -4"
+        rotation="90 0 180"
+        width="5.5"
+        height="6"
+      ></a-image>
+    </a-scene>
+  </body>
+</html>
